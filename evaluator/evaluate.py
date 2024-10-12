@@ -3,7 +3,6 @@ import anthropic
 class LLM():
     def __init__(self, model_name = "claude-3-haiku-20240307", data_path = "data/data.json"):
         self.model_name = model_name
-        self.history = []
         try:
             self.client = anthropic.Anthropic()
             print("Successfully Connected to Anthropic API")
@@ -29,7 +28,7 @@ From this distribution, generate {n_users} synthetic user profiles in a JSON for
 "age": int,
 "gender": "Male" or "Female",
 "location": string,
-"user_description": a string describing an instance of a user living in the location specified, given the purchasing habits in the dataset
+"user_description": a string describing an instance of a user living in the location specified, given the purchasing habits in the dataset. Be more detailed.
     
 }},
 ...
@@ -37,8 +36,36 @@ From this distribution, generate {n_users} synthetic user profiles in a JSON for
 </json>
 Only return the JSON, and nothing else.
         """
-        return self._send_message(prompt)
+        history = [
+            {"role": 'user', "content": prompt}
+        ]
+        response = self._send_message(history)
+        history.append({'role':'assistant', 'content': response})
+        return response, history
         
+    
+    def queryUser(self, user_dict: dict, product_dict: dict, history: list):
+        prompt = f"""
+Imagine you are now a user with the following characteristics:
+
+{user_dict}
+
+How would you rate and the following product?
+
+{product_dict}
+
+Return a JSON output only, and nothing else. The format is as follows:
+
+{{
+"rating": int (out of 5 stars),
+"explanation": str,
+"improvement": str (describing what changes to the product can be made to make it more attractive to this user),
+"action": str (should be from the following options: view, like, purchase) based on how the user will likely interact with the product
+}}
+"""
+        history.append({"role": 'user', "content":  prompt})
+        return self._send_message(history)
+
     def generate_summary(self):
         prompt = f"""
 Imagine you are a sales consultant, and you are provided with the following sales data on electronics, in JSON format:
@@ -49,17 +76,12 @@ Imagine you are a sales consultant, and you are provided with the following sale
 
 Generate a summary of this data.
 """
-        return self._send_message(prompt)
+        return self._send_message([{"role": 'user', "content":  prompt}])
 
-    def _send_message(self, content, new_message = True):
-        if new_message:
-            self.history = [{"role": 'user', "content":  content}]
-        else:
-            self.history.append({"role": 'user', "content":  content})
+    def _send_message(self, history):
         response = self.client.messages.create(
             model=self.model_name,
             max_tokens=2048,
-            messages=self.history
+            messages=history
         ).content[0].text
-        self.history.append({'role':'assistant', 'content': response})
         return response
