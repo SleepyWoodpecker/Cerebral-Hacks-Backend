@@ -19,7 +19,9 @@ llm = LLM()
 
 @app.get("/generate-evaluation")
 def generate_evaluation(productName: str, customerFilter: str, productCategory: str):
-    # user_profiles = llm.generate_user_profiles()
+    user_profiles, response_history = llm.generate_user_profiles()
+
+    # store chat history
     return productName + " " + customerFilter + " " + productCategory
 
 
