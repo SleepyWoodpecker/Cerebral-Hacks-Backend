@@ -62,7 +62,9 @@ Return a JSON output only, and nothing else. The format is as follows:
 "rating": int (out of 5 stars),
 "explanation": str,
 "improvement": str (describing what changes to the product can be made to make it more attractive to this user),
-"action": str (should be from the following options: view, like, purchase) based on how the user will likely interact with the product
+"action": str (should be from the following options: view, like, purchase) based on how the user will likely interact with the product,
+"liked": list of str (a description in a list in point form, on what the user liked),
+"disliked": list of str (a description in a list in point form, on what the user disliked)
 }},
 ... (rest of the users)
 ]
