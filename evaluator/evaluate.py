@@ -68,7 +68,9 @@ Return a JSON output only, and nothing else. The format is as follows:
 ]
 """
         history.append({"role": 'user', "content":  prompt})
-        return self._send_message(history)
+        response = self._send_message(history)
+        history.append({'role':'assistant', 'content': response})
+        return response, history
 
     def generate_summary(self):
         prompt = f"""
