@@ -99,16 +99,13 @@ You have previously generated a list of users with their responses to the given 
 
 Now, summarize the responses of all the users into a single JSON file, as follows
 
-<json>
 {{
-"feedback": str (a brief summary of all the user responses. i.e., "what most users say about this product"),
-"positive": str (what do most users say is good about this product?),
-"negative": str (what do most users dislike about this product?),
+"feedback": str (a brief 1-sentence summary of all the user responses. i.e., "what most users say about this product"),
+"positive": list of str (3 good points about the product),
+"improvement": list of str (3 points for improvements for the product),
 "keywords": list of str (what are the most common descriptive words associated with this product?),
-"season": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season)
+"bestSeason": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season)
 }}
-
-</json>
 
 """
         return self._send_message(prompt, history)
