@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from evaluator.evaluate import LLM
 
 # TODO: change allowed cors origins, error handling
 
@@ -13,9 +14,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+llm = LLM()
+
 
 @app.get("/generate-evaluation")
 def generate_evaluation(productName: str, customerFilter: str, productCategory: str):
+    # user_profiles = llm.generate_user_profiles()
     return productName + " " + customerFilter + " " + productCategory
 
 
