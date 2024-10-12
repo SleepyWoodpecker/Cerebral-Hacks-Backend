@@ -11,7 +11,7 @@ class LLM():
         with open(data_path, 'r') as f:
             self.data = f.read()
 
-    def generate_user_profiles(self, n_users=10):
+    def generate_user_profiles(self, country, n_users=10):
         prompt = f"""
 You are given a dataset of user demographics and their purchasing habits as follows:
 
@@ -35,13 +35,9 @@ From this distribution, generate {n_users} synthetic user profiles in a JSON for
 ]
 </json>
 Only return the JSON, and nothing else.
+All users should be from {country}, and the distribution of users generated, along with their descriptions, should be sufficiently diverse to represent the true demographics of {country}.
         """
-        history = [
-            {"role": 'user', "content": prompt}
-        ]
-        response = self._send_message(history)
-        history.append({'role':'assistant', 'content': response})
-        return response, history
+        return self._send_message(prompt, [])
         
     
     def queryUsers(self, users_dict: list, product_dict: dict, history: list):
@@ -69,27 +65,35 @@ Return a JSON output only, and nothing else. The format is as follows:
 ... (rest of the users)
 ]
 """
-        history.append({"role": 'user', "content":  prompt})
-        response = self._send_message(history)
-        history.append({'role':'assistant', 'content': response})
-        return response, history
 
-    def generate_summary(self):
-        prompt = f"""
-Imagine you are a sales consultant, and you are provided with the following sales data on electronics, in JSON format:
+        return self._send_message(prompt, history)
+
+    def generate_evaluation(self, history):
+
+        prompt = """
+You have previously generated a list of users with their responses to the given product.
+
+Now, summarize the responses of all the users into a single JSON file, as follows
 
 <json>
-{self.data}
+{{
+"feedback": str (a brief summary of all the user responses. i.e., "what most users say about this product"),
+"positive": str (what do most users say is good about this product?),
+"negative": str (what do most users dislike about this product?),
+"keywords": list of str (what are the most common descriptive words associated with this product?),
+"season": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season)
+}}
+
 </json>
 
-Generate a summary of this data.
 """
-        return self._send_message([{"role": 'user', "content":  prompt}])
-
-    def _send_message(self, history):
+        return self._send_message(prompt, history)
+    def _send_message(self, prompt, history):
+        history.append({"role": 'user', "content":  prompt})
         response = self.client.messages.create(
             model=self.model_name,
             max_tokens=2048,
             messages=history
         ).content[0].text
-        return response
+        history.append({'role':'assistant', 'content': response})
+        return response, history
