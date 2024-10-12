@@ -44,24 +44,28 @@ Only return the JSON, and nothing else.
         return response, history
         
     
-    def queryUser(self, user_dict: dict, product_dict: dict, history: list):
+    def queryUsers(self, users_dict: list, product_dict: dict, history: list):
         prompt = f"""
-Imagine you are now a user with the following characteristics:
+For the users below:
 
-{user_dict}
+{users_dict}
 
-How would you rate and the following product?
+For each user, how would you rate and review the following product?
 
 {product_dict}
 
 Return a JSON output only, and nothing else. The format is as follows:
 
+[
 {{
+"id": int,
 "rating": int (out of 5 stars),
 "explanation": str,
 "improvement": str (describing what changes to the product can be made to make it more attractive to this user),
 "action": str (should be from the following options: view, like, purchase) based on how the user will likely interact with the product
-}}
+}},
+... (rest of the users)
+]
 """
         history.append({"role": 'user', "content":  prompt})
         return self._send_message(history)
