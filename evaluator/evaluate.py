@@ -2,7 +2,6 @@ import anthropic
 import base64
 import httpx
 
-
 class LLM:
     def __init__(
         self, model_name="claude-3-haiku-20240307", data_path="data/data.json"
