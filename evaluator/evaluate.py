@@ -46,7 +46,7 @@ For the JSON, ensure you close all curly brackets.
         """
         return self._send_message(prompt, [])
 
-    def queryUsers(
+    def query_users(
         self, users_dict: list, product_dict: dict, history: list, image_url=None
     ):
         prompt = f"""
@@ -67,8 +67,6 @@ Return a JSON output only, and nothing else. The format is as follows:
 "explanation": str,
 "improvement": str (describing what changes to the product can be made to make it more attractive to this user),
 "action": str (should be from the following options: view, like, purchase) based on how the user will likely interact with the product,
-"liked": list of str (a description in a list in point form, on what the user liked),
-"disliked": list of str (a description in a list in point form, on what the user disliked)
 }},
 ... (rest of the users)
 ]
