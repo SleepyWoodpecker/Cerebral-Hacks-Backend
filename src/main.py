@@ -28,56 +28,56 @@ def generate_evaluation(req_body: Generate_Evaluation_Body):
     2. queryUsers based on single product and
     3. evaluate
     """
-    product = db.get_product(req_body.pid)
-    chat_id = str(uuid1())
+    # product = db.get_product(req_body.pid)
+    # chat_id = str(uuid1())
 
-    generated_users, chat_history = llm.generate_user_profiles(
-        country=req_body.country, demographic=req_body.demographicTags
-    )
+    # generated_users, chat_history = llm.generate_user_profiles(
+    #     country=req_body.country, demographic=req_body.demographicTags
+    # )
 
-    print("generated users")
+    # print("generated users")
 
-    all_user_evaluations, chat_history = llm.query_users(
-        users_dict=generated_users,
-        product_dict=product,
-        history=chat_history,
-        image_url=product.get("Image", None),
-    )
-    # store user evaluations for retrieval later
-    db.save_generated_users(chat_id=chat_id, generated_user_data=all_user_evaluations)
+    # all_user_evaluations, chat_history = llm.query_users(
+    #     users_dict=generated_users,
+    #     product_dict=product,
+    #     history=chat_history,
+    #     image_url=product.get("Image", None),
+    # )
+    # # store user evaluations for retrieval later
+    # db.save_generated_users(chat_id=chat_id, generated_user_data=all_user_evaluations)
 
-    print("created user evaluations")
+    # print("created user evaluations")
 
-    final_evaluation, chat_history = llm.generate_evaluation(chat_history)
-    # save final copy of chat history
-    db.update_chat_history(chat_id=chat_id, new_chat_history=chat_history)
+    # final_evaluation, chat_history = llm.generate_evaluation(chat_history)
+    # # save final copy of chat history
+    # db.update_chat_history(chat_id=chat_id, new_chat_history=chat_history)
 
-    return final_evaluation
+    # return final_evaluation
 
     # # # # hard-coded feedback # # # #
-    # return {
-    #     "avgStarRating": 5.0,
-    #     "actionBreakdown": {"purchase": 20.0, "view": 50.0, "like": 30.0},
-    #     "feedback": "Overall, the Martha Stewart Crafts Stencil Tape is a versatile and user-friendly product that allows users to create unique patterns and designs, with some room for improvement in terms of color and stencil options.",
-    #     "positive": [
-    #         "Versatility in creating designs and patterns",
-    #         "Easy application and removal of the low-tack adhesive",
-    #         "Ability to personalize projects and express individuality",
-    #     ],
-    #     "improvement": [
-    #         "Offer a wider range of color and pattern options",
-    #         "Provide more stencil design choices or the ability to create custom stencils",
-    #         "Expand the product's appeal to users with different creative needs and styles",
-    #     ],
-    #     "keywords": [
-    #         "versatile",
-    #         "user-friendly",
-    #         "unique",
-    #         "personalize",
-    #         "express individuality",
-    #     ],
-    #     "bestSeason": "spring",
-    # }
+    return {
+        "avgStarRating": 5.0,
+        "actionBreakdown": {"purchase": 20.0, "view": 50.0, "like": 30.0},
+        "feedback": "Overall, the Martha Stewart Crafts Stencil Tape is a versatile and user-friendly product that allows users to create unique patterns and designs, with some room for improvement in terms of color and stencil options.",
+        "positive": [
+            "Versatility in creating designs and patterns",
+            "Easy application and removal of the low-tack adhesive",
+            "Ability to personalize projects and express individuality",
+        ],
+        "improvement": [
+            "Offer a wider range of color and pattern options",
+            "Provide more stencil design choices or the ability to create custom stencils",
+            "Expand the product's appeal to users with different creative needs and styles",
+        ],
+        "keywords": [
+            "versatile",
+            "user-friendly",
+            "unique",
+            "personalize",
+            "express individuality",
+        ],
+        "bestSeason": "spring",
+    }
 
 
 @app.get("/generate-explanation")
