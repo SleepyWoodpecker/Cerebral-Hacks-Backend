@@ -107,7 +107,7 @@ Now, summarize the responses of all the users into a single JSON file, as follow
 "positive": list of str (3 good points about the product),
 "improvement": list of str (3 points for improvements for the product),
 "keywords": list of str (what are the most common descriptive words associated with this product?),
-"bestSeason": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season)
+"bestSeason": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season in lowercase)
 }}
 
 """
@@ -117,7 +117,7 @@ Now, summarize the responses of all the users into a single JSON file, as follow
         history.append({"role": "user", "content": content})
         response = (
             self.client.messages.create(
-                model=self.model_name, max_tokens=2048, messages=history
+                model=self.model_name, max_tokens=4096, messages=history
             )
             .content[0]
             .text
