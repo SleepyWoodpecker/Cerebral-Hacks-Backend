@@ -1,6 +1,11 @@
 import anthropic
 import base64
 import httpx
+import os
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())
+
 
 class LLM:
     def __init__(
@@ -8,7 +13,9 @@ class LLM:
     ):
         self.model_name = model_name
         try:
-            self.client = anthropic.Anthropic()
+            self.client = anthropic.Anthropic(
+                api_key=os.environ.get("ANTHROPIC_API_KEY"),
+            )
             print("Successfully Connected to Anthropic API")
         except:
             print("Connection Error")
@@ -89,7 +96,10 @@ Return a JSON output only, and nothing else. The format is as follows:
                 }
             )
             content.append(
-                {"type": "text", "text": "This is how the product looks like. Use this in your product evaluations for each user."}
+                {
+                    "type": "text",
+                    "text": "This is how the product looks like. Use this in your product evaluations for each user.",
+                }
             )
         return self._send_message(content, history)
 

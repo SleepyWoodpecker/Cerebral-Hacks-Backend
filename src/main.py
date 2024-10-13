@@ -29,13 +29,15 @@ def generate_evaluation(req_body: Generate_Evaluation_Body):
     3. evaluate
     """
     product = db.get_product(req_body.pid)
-    chat_id = uuid1()
+    chat_id = str(uuid1())
 
     generated_users, chat_history = llm.generate_user_profiles(
         country=req_body.country, demographic=req_body.demographicTags
     )
 
-    all_user_evaluations, chat_history = llm.queryUsers(
+    print("generated users")
+
+    all_user_evaluations, chat_history = llm.query_users(
         users_dict=generated_users,
         product_dict=product,
         history=chat_history,
@@ -44,7 +46,11 @@ def generate_evaluation(req_body: Generate_Evaluation_Body):
     # store user evaluations for retrieval later
     db.save_generated_users(chat_id=chat_id, generated_user_data=all_user_evaluations)
 
-    final_evaluation = llm.generate_evaluation(chat_history)
+    print("created user evaluations")
+
+    final_evaluation, chat_history = llm.generate_evaluation(chat_history)
+    # save final copy of chat history
+    db.update_chat_history(chat_id=chat_id, new_chat_history=chat_history)
 
     return final_evaluation
 

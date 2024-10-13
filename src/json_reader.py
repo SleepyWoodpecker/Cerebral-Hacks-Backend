@@ -1,14 +1,13 @@
 import json
-from uuid import uuid1
-from internal_backend_types import User
+from .internal_backend_types import User
 
 
 class Json_DB:
     def __init__(self):
         self.customer_json_path = "data/customers_2.json"
-        self.product_json_path = "../data/products_2.json"
+        self.product_json_path = "data/products_2.json"
         self.sales_json_path = "data/sales_2.json"
-        self.chat_history_path = "test.json"
+        self.chat_history_path = "data/chat_history.json"
 
     # # # user # # #
     def _get_user_profile_folder(self, chat_id: str) -> str:
@@ -37,8 +36,8 @@ class Json_DB:
 
     def update_chat_history(
         self,
-        new_chat_history: dict[str, str],
         chat_id: str,
+        new_chat_history: dict[str, str],
     ) -> None:
         chat_history = self.get_all_chats()
 
@@ -53,13 +52,16 @@ class Json_DB:
         with open(self.product_json_path, "r") as file:
             products = json.load(file)
             for product in products.values():
-                if product_id == product["Unique ID"]:
+                if product_id == product["Uniqe Id"]:
                     return product
 
 
 if __name__ == "__main__":
     db = Json_DB()
-    db.save_generated_users(
-        chat_id="abc", generated_user_data=[{"sheesh": "dab", "id": 1}]
+    # db.save_generated_users(
+    #     chat_id="abc", generated_user_data=[{"sheesh": "dab", "id": 1}]
+    # )
+    # print(db.get_generated_user(chat_id="abc", user_id=1))
+    db.update_chat_history(
+        chat_id="hithere", new_chat_history=[{"user": "sheesh", "conrtent": "hi"}]
     )
-    print(db.get_generated_user(chat_id="abc", user_id=1))
