@@ -13,3 +13,8 @@ class User(BaseModel):
     gender: GenderEnum
     location: str
     user_description: str
+
+
+class ChatHistory(BaseModel):
+    role: str
+    content: str
