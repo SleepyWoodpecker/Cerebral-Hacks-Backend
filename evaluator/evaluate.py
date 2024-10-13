@@ -49,7 +49,7 @@ Only return the JSON, and nothing else.
 All users should be from {country}.
 Ensure that the users generated are sufficiently diverse to represent the demographic of {country}, with a slight focus on the following traits:
 {demographic} 
-For the JSON, ensure you close all curly brackets.
+You must format the output as proper JSON (i.e. close all curly brackets).
 """
         return self._send_message(prompt, [])
 
@@ -77,6 +77,8 @@ Return a JSON output only, and nothing else. The format is as follows:
 }},
 ... (rest of the users)
 ]
+
+You must format the output as proper JSON (i.e. close all curly brackets).
 """
 
         content = [
@@ -117,6 +119,8 @@ Now, summarize the responses of all the users into a single JSON file, as follow
 "keywords": list of str (what are the most common descriptive words associated with this product?),
 "bestSeason": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season in lowercase)
 }}
+
+You must format the output as proper JSON (i.e. close all curly brackets).
 
 """
         return self._send_message(prompt, history)
