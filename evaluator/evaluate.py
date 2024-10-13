@@ -123,6 +123,24 @@ You must format the output as proper JSON (i.e. close all curly brackets).
 """
         return self._send_message(prompt, history)
 
+
+    def generate_new_description(self, history):
+        # Must be run after generate_evaluation (results saved in history)
+
+        prompt = """
+Based on the data you have received, and what you have generated so far,
+generate a new product description to better cater to the needs
+of this specific demographic (eg. country, age, etc. ) based on cultural awareness
+and understanding of the age group and their purchasing habits.
+
+You may choose to cater to a specific subgroup of the demographic who are most likely to purchase the product.
+
+There is no need to mention the country name in your description.
+
+Limit the description to not more than 300 characters.        
+        """
+        return self._send_message(prompt, history)
+
     def _send_message(self, content, history):
         history.append({"role": "user", "content": content})
         response = (
