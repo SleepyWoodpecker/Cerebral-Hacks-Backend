@@ -1,9 +1,0 @@
-services:
-  # A Docker web service
-  - type: web
-    name: thanks-giver
-    runtime: python
-    plan: free
-    autoDeploy: false
-    buildCommand: pip install -r requirements.txt
-    startCommand: "fastapi run src/main.py --port 8080"

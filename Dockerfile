@@ -8,14 +8,10 @@ COPY requirements.txt .
 RUN pip install wheel
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# COPY the src folder
+# COPY the data, src and evaluator folder
 COPY /src ./src
-
-# copy environment variables
-# COPY .env .
-
-# Expose the port the app runs on
-EXPOSE 8080
+COPY /evaluator ./evaluator
+COPY /data ./data
 
 # copy environment variables
 # COPY .env .
