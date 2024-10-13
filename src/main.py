@@ -76,6 +76,8 @@ def generate_evaluation(
     action_overview = action_breakdown(user_output=all_user_evaluations)
     final_evaluation["actionBreakdown"] = action_overview
 
+    final_evaluation["generatedReviews"] = all_user_evaluations
+
     return final_evaluation
 
     # # # # hard-coded feedback # # # #
