@@ -113,11 +113,9 @@ You have previously generated a list of users with their responses to the given 
 Now, summarize the responses of all the users into a single JSON file, as follows
 
 {{
-"feedback": str (a brief 1-sentence summary of all the user responses. i.e., "what most users say about this product"),
-"positive": list of str (3 good points about the product),
-"improvement": list of str (3 points for improvements for the product),
-"keywords": list of str (what are the most common descriptive words associated with this product?),
-"bestSeason": str (What is the best season for the product markets? spring/summer/fall/winter, only generate one season in lowercase)
+"feedback": str (a brief 1-sentence summary, not more than 250 characters, of all the user responses. i.e., "what most users say about this product"),
+"positive": list of str (3 good points about the product, each point being less than 100 characters),
+"improvement": list of str (3 points for improvements for the product, each point being less than 100 characters),
 }}
 
 You must format the output as proper JSON (i.e. close all curly brackets).
