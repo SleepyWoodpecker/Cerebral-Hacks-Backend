@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from evaluator.evaluate import LLM
-from external_backend_types import Generate_Evaluation_Body
+from .external_backend_types import Generate_Evaluation_Body
 
 # TODO: change allowed cors origins, error handling
 
@@ -30,19 +30,25 @@ def generate_evaluation(req_body: Generate_Evaluation_Body):
     return {
         "avgStarRating": 5.0,
         "actionBreakdown": {"purchase": 20.0, "view": 50.0, "like": 30.0},
-        "feedback": "Overall, the users find the Martha Stewart Crafts Stencil Tape to be a versatile and useful product for creating unique designs and patterns. They appreciate the low-tack adhesive and ease of application and removal, which allows for experimentation and customization. However, some users express a desire for a wider selection of stencil designs and patterns to cater to different styles and preferences.",
-        "positive": "The users highlight the product's ability to create customized designs, its easy application and removal, and its potential for use in various creative projects, such as home decor and fashion design.",
-        "improvement": "The limited selection of stencil designs is the main concern expressed by the users, as they would like to have more options to choose from to accommodate their individual styles and needs.",
-        "keywords": [
-            "low-tack adhesive",
-            "customization",
-            "versatile",
-            "easy to use",
-            "home decor",
-            "fashion design",
-            "limited selection",
+        "feedback": "Overall, the Martha Stewart Crafts Stencil Tape is a versatile and user-friendly product that allows users to create unique patterns and designs, with some room for improvement in terms of color and stencil options.",
+        "positive": [
+            "Versatility in creating designs and patterns",
+            "Easy application and removal of the low-tack adhesive",
+            "Ability to personalize projects and express individuality",
         ],
-        "bestSeason": "Spring and Fall",
+        "improvement": [
+            "Offer a wider range of color and pattern options",
+            "Provide more stencil design choices or the ability to create custom stencils",
+            "Expand the product's appeal to users with different creative needs and styles",
+        ],
+        "keywords": [
+            "versatile",
+            "user-friendly",
+            "unique",
+            "personalize",
+            "express individuality",
+        ],
+        "bestSeason": "spring",
     }
 
 
