@@ -43,7 +43,7 @@ All users should be from {country}.
 Ensure that the users generated are sufficiently diverse to represent the demographic of {country}, with a slight focus on the following traits:
 {demographic} 
 For the JSON, ensure you close all curly brackets.
-        """
+"""
         return self._send_message(prompt, [])
 
     def query_users(
