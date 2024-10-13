@@ -15,7 +15,7 @@ class LLM:
         with open(data_path, "r") as f:
             self.data = f.read()
 
-    def generate_user_profiles(self, country, n_users=10):
+    def generate_user_profiles(self, country: str, demographic: list[str], n_users=10):
         prompt = f"""
 You are given a dataset of user demographics and their purchasing habits as follows:
 
@@ -39,7 +39,9 @@ From this distribution, generate {n_users} synthetic user profiles in a JSON for
 ]
 </json>
 Only return the JSON, and nothing else.
-All users should be from {country}, and the distribution of users generated, along with their descriptions, should be sufficiently diverse to represent the true demographics of {country}.
+All users should be from {country}.
+Ensure that the users generated are sufficiently diverse to represent the demographic of {country}, with a slight focus on the following traits:
+{demographic} 
 For the JSON, ensure you close all curly brackets.
         """
         return self._send_message(prompt, [])
