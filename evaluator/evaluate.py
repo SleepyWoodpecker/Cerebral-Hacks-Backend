@@ -116,14 +116,13 @@ Now, summarize the responses of all the users into a single JSON file, as follow
 "feedback": str (a brief 1-sentence summary, not more than 250 characters, of all the user responses. i.e., "what most users say about this product"),
 "positive": list of str (3 good points about the product, each point being less than 100 characters),
 "improvement": list of str (3 points for improvements for the product, each point being less than 100 characters),
-"image_recommendation": str (a brief 1-sentence summary, not more than 200 characters, of areas for improvement of the displayed image of the product, based on the image of the product provided earlier)
+"imageRecommendation": str (a brief 1-sentence summary, not more than 200 characters, of areas for improvement of the displayed image of the product, based on the image of the product provided earlier)
 }}
 
 You must format the output as proper JSON (i.e. close all curly brackets).
 
 """
         return self._send_message(prompt, history)
-
 
     def generate_new_description(self, history):
         # Must be run after generate_evaluation (results saved in history)
