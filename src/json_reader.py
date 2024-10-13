@@ -1,6 +1,6 @@
 import json
 from uuid import uuid1
-from backend_types import User
+from src.internal_backend_types import User
 
 
 class Json_DB:
