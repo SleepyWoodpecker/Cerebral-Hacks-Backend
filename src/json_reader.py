@@ -1,6 +1,6 @@
 import json
 from uuid import uuid1
-from src.internal_backend_types import User
+from internal_backend_types import User
 
 
 class Json_DB:
@@ -10,38 +10,56 @@ class Json_DB:
         self.sales_json_path = "data/sales_2.json"
         self.chat_history_path = "test.json"
 
-    def get_user(self, id: int) -> User | None:
-        with open(self.customer_json_path, "r") as file:
-            customer_data = json.load(file)
-            chosen_customer = customer_data.get(str(id), None)
-            return chosen_customer
+    # # # user # # #
+    def _get_user_profile_folder(self, chat_id: str) -> str:
+        return f"data/user_profiles/{chat_id}.json"
 
+    def save_generated_users(
+        self, chat_id: str, generated_user_data: list[User]
+    ) -> None:
+        with open(self._get_user_profile_folder(chat_id=chat_id), "w") as file:
+            json.dump(generated_user_data, file)
+
+    def get_generated_user(self, chat_id: str, user_id: int) -> User:
+        with open(self._get_user_profile_folder(chat_id=chat_id), "r") as file:
+            generated_users = json.load(file)
+            for user in generated_users:
+                if user_id == user["id"]:
+                    return user
+
+    # # # chat # # #
     def get_all_chats(self) -> dict[str, str] | None:
         with open(self.chat_history_path, "r") as file:
             return json.load(file)
 
-    def get_chat_history(self, chat_id: int) -> dict[str, str] | None:
+    def get_chat_history(self, chat_id: str) -> dict[str, str] | None:
         return self.get_all_chats().get(str(chat_id), None)
 
     def update_chat_history(
         self,
         new_chat_history: dict[str, str],
-        chat_id: int | None = None,
+        chat_id: str,
     ) -> None:
         chat_history = self.get_all_chats()
 
         # NOTE: this might not be the most efficient way because it rewrites the whole JSON everytime
-        if chat_id:
-            chat_history[str(chat_id)] = new_chat_history
-        else:
-            new_chat_id = str(uuid1())
-            chat_history[new_chat_id] = new_chat_history
+        chat_history[chat_id] = new_chat_history
 
         with open(self.chat_history_path, "w") as file:
             json.dump(chat_history, file)
 
+    # # # products # # #
+    def get_product(self, product_id: str):
+        with open(self.product_json_path, "r") as file:
+            products = json.load(file)
+            for product in products.values():
+                if product_id == product["Unique ID"]:
+                    return product
+
 
 if __name__ == "__main__":
     db = Json_DB()
-    print(db.get_chat_history(1))
-    db.update_chat_history([{"sheesh": "dab"}], 2)
+    db.save_generated_users(
+        chat_id="abc", generated_user_data=[{"sheesh": "dab", "id": 1}]
+    )
+    print(db.get_generated_user(chat_id="abc", user_id=1))

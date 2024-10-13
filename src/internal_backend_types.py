@@ -9,10 +9,10 @@ class GenderEnum(str, Enum):
 
 class User(BaseModel):
     id: int
-    age: int
-    gender: GenderEnum
-    location: str
-    user_description: str
+    rating: int
+    explanation: str
+    improvement: str
+    action: str
 
 
 class ChatHistory(BaseModel):
