@@ -40,6 +40,7 @@ From this distribution, generate {n_users} synthetic user profiles in a JSON for
 </json>
 Only return the JSON, and nothing else.
 All users should be from {country}, and the distribution of users generated, along with their descriptions, should be sufficiently diverse to represent the true demographics of {country}.
+For the JSON, ensure you close all curly brackets.
         """
         return self._send_message(prompt, [])
 
